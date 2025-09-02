@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Regression Test Suite">
+
+    <!-- All Smoke Tests -->
+    <test name="Regression Tests" parallel="methods" thread-count="1">
+        <groups>
+            <run>
+                <include name="regression"/>
+            </run>
+        </groups>
+        <classes>
+
+        </classes>
+    </test>
+</suite>

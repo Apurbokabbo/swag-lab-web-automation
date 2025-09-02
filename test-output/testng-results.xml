@@ -6,20 +6,20 @@
     <groups>
     </groups>
     <test started-at="2025-02-10T15:06:34 BDT" name="Default test" finished-at="2025-02-10T15:06:44 BDT" duration-ms="10188">
-      <class name="testcases.LoginPage_TeseCases">
-        <test-method is-config="true" signature="setBrowser()[pri:0, instance:testcases.LoginPage_TeseCases@34c01041]" started-at="2025-02-10T15:06:34 BDT" name="setBrowser" finished-at="2025-02-10T15:06:42 BDT" duration-ms="8697" status="PASS">
+      <class name="testcases.LoginPageTeseCases">
+        <test-method is-config="true" signature="setBrowser()[pri:0, instance:testcases.LoginPageTeseCases@34c01041]" started-at="2025-02-10T15:06:34 BDT" name="setBrowser" finished-at="2025-02-10T15:06:42 BDT" duration-ms="8697" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setBrowser -->
-        <test-method signature="placeHolderVerify()[pri:0, instance:testcases.LoginPage_TeseCases@34c01041]" started-at="2025-02-10T15:06:43 BDT" name="placeHolderVerify" finished-at="2025-02-10T15:06:43 BDT" duration-ms="92" status="PASS">
+        <test-method signature="placeHolderVerify()[pri:0, instance:testcases.LoginPageTeseCases@34c01041]" started-at="2025-02-10T15:06:43 BDT" name="placeHolderVerify" finished-at="2025-02-10T15:06:43 BDT" duration-ms="92" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- placeHolderVerify -->
-        <test-method is-config="true" signature="closeBrowser()[pri:0, instance:testcases.LoginPage_TeseCases@34c01041]" started-at="2025-02-10T15:06:43 BDT" name="closeBrowser" finished-at="2025-02-10T15:06:44 BDT" duration-ms="1185" status="PASS">
+        <test-method is-config="true" signature="closeBrowser()[pri:0, instance:testcases.LoginPageTeseCases@34c01041]" started-at="2025-02-10T15:06:43 BDT" name="closeBrowser" finished-at="2025-02-10T15:06:44 BDT" duration-ms="1185" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- closeBrowser -->
-      </class> <!-- testcases.LoginPage_TeseCases -->
+      </class> <!-- testcases.LoginPageTeseCases -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

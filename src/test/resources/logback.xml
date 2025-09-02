@@ -1,0 +1,24 @@
+<configuration>
+
+    <!-- Set root logging level to INFO -->
+    <root level="INFO">
+        <appender-ref ref="Console"/>
+    </root>
+
+    <!-- Suppress WebDriverManager logs by setting to WARN -->
+    <logger name="io.github.bonigarcia.wdm.WebDriverManager" level="WARN"/>
+
+    <!-- Suppress TestNG internal logs by setting to WARN -->
+    <logger name="org.testng.internal.Utils" level="WARN"/>
+
+    <!-- For more custom loggers, you can add additional loggers here -->
+    <!-- Example: Set all Selenium logs to ERROR to suppress debug info -->
+    <logger name="org.openqa.selenium" level="ERROR"/>
+
+    <!-- Console Appender for standard logging -->
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%level] [%logger{36}] %msg%n</pattern>
+        </encoder>
+    </appender>
+</configuration>

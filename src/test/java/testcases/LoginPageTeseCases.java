@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 import pages.LoginPage;
 import utilities.BaseDriver;
 
-public class LoginPage_TeseCases extends BaseDriver{
+public class LoginPageTeseCases extends BaseDriver{
 	
 	
 	LoginPage loginObj = new LoginPage() ;
