@@ -7,8 +7,7 @@ import org.openqa.selenium.WebDriver;
 public class LoginPage extends BasePage{
 	
 	
-	
-	public String HOME_PAGE_TITTLE_TEXT = "Swag Labs";
+
 	public String LOGIN_PAGE_USER_NAME_INPUT_FIELD_PLACEHOLDER_TEXT = "Username";
 	public String LOGIN_PAGE_PASSWORD_INPUT_FIELD_PLACEHOLDER_TEXT = "Password";
 	public String PASSWORD = "secret_sauce";
@@ -36,8 +35,8 @@ public class LoginPage extends BasePage{
 		findElement(LOGIN_PAGE_USER_NAME_INPUT_FIELD).sendKeys(userName);
 		findElement(LOGIN_PAGE_PASSWORD_INPUT_FIELD).sendKeys(password);
 		findElement(LOGIN_BUTTON).click();
-		waitForElementVisible(LOGIN_PAGE_TITTLE_LOCATOR, 3000);
-		verifyPageTitle(HOME_PAGE_TITTLE_TEXT);            	
+		waitForVisibilityOfElement(LOGIN_PAGE_TITTLE_LOCATOR, 3);
+		assertionHard(SWAG_LAB_PAGE_TITTLE_LOCATOR,SWAG_LAB_PAGE_TITTLE_TEXT);
 		
 	}
 	
@@ -47,7 +46,7 @@ public class LoginPage extends BasePage{
 		findElement(LOGIN_PAGE_USER_NAME_INPUT_FIELD).sendKeys(userName);
 		findElement(LOGIN_PAGE_PASSWORD_INPUT_FIELD).sendKeys(password);
 		findElement(LOGIN_BUTTON).click();
-		waitForElementVisible(ERROR_MESSAGE_LOCATOR, 2000);
+		waitForVisibilityOfElement(ERROR_MESSAGE_LOCATOR, 2);
 		assertionHard(ERROR_MESSAGE_LOCATOR, errorMessage);
 		
 	}

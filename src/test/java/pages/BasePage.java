@@ -37,7 +37,8 @@ public class BasePage {
 	private static final String NUMERIC_CHARACTERS = "0123456789";
 	private static final String SPECIAL_CHARACTERS = "$%&_+-.@#";
 
-	public String HOME_PAGE_TITTLE_TEXT="Swag Labs";
+	public String SWAG_LAB_PAGE_TITTLE_TEXT="Swag Labs";
+	public By SWAG_LAB_PAGE_TITTLE_LOCATOR = By.xpath("//div[contains(text(),'Swag Labs')]");
 
 
 
@@ -402,13 +403,7 @@ public class BasePage {
 		}
 	}
 
-//	public void otpInputer(By locator , String otp) throws InterruptedException{
-//		fluentWaitClickOnElement(locator,15);
-//		findElement(locator).sendKeys(otp);
-//		fluentWaitClickOnElement(continue_button,4);
-//		Thread.sleep(200);
-//
-//	}
+
 
 	public void toasterMessageAssertion(By toaster_locator , String expectMessage){
 		isElementVisible(toaster_locator,7);
