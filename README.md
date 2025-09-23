@@ -19,7 +19,7 @@ This is an automated testing framework for the Swag Lab web application, built u
 ## Prerequisites
 - Java Development Kit (JDK) 21
 - Maven
-- FortiClient VPN
+
 
 ## Project Structure
 ```
