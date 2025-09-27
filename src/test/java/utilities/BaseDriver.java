@@ -14,9 +14,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestContext;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import pages.BasePage;
 
 import static utilities.URLs.BASE_URL;
 
@@ -52,8 +54,7 @@ public class BaseDriver {
 			case "chrome":
 				HashMap<String, Object> chromePrefs = new HashMap<>();
 				chromePrefs.put("profile.default_content_settings.popups", 0);
-				//chromePrefs.put("download.default_directory", "D:\\fastpay-support-panel-automation\\src\\test\\resources\\downloads"); // Set custom folder
-				WebDriverManager.chromiumdriver().setup();
+				WebDriverManager.chromedriver().setup();
 				ChromeOptions chromeOptions = new ChromeOptions();
 				chromeOptions.setExperimentalOption("prefs", chromePrefs);
 				if (isHeadless) {
@@ -61,28 +62,37 @@ public class BaseDriver {
 					chromeOptions.addArguments("--window-size=1920,1080");
 					chromeOptions.addArguments("--disable-gpu");
 					chromeOptions.addArguments("--no-sandbox");
-					chromeOptions.addArguments("--disable-setuid-sandbox");    // 👈 added
+					chromeOptions.addArguments("--disable-setuid-sandbox");
 					chromeOptions.addArguments("--remote-allow-origins=*");
 					chromeOptions.addArguments("--disable-blink-features=AutomationControlled");
 					chromeOptions.addArguments(
-							"user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) " +
-									"Chromium/114.0.0.0 Safari/537.36"
+							"user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 " +
+									"(KHTML, like Gecko) Chromium/114.0.0.0 Safari/537.36"
 					);
-
-					// Use unique temp profile for each run
-					// String uniqueProfile = "/tmp/chrome-profile-" + UUID.randomUUID();
-					// chromeOptions.addArguments("--user-data-dir=" + uniqueProfile);
-
-					// // Chromium binary path
-					// chromeOptions.setBinary("/usr/bin/chromium");
-
-
-					// WebDriverManager will handle the driver
-					WebDriverManager.chromedriver().setup();
-
 				}
-
 				return new ChromeDriver(chromeOptions);
+
+			case "chromium":   // 👈 Added Chromium support
+				HashMap<String, Object> chromiumPrefs = new HashMap<>();
+				chromiumPrefs.put("profile.default_content_settings.popups", 0);
+				WebDriverManager.chromiumdriver().setup();
+				ChromeOptions chromiumOptions = new ChromeOptions();
+				chromiumOptions.setBinary("/usr/bin/chromium-browser"); // 👈 path to chromium binary
+				chromiumOptions.setExperimentalOption("prefs", chromiumPrefs);
+				if (isHeadless) {
+					chromiumOptions.addArguments("--headless=new");
+					chromiumOptions.addArguments("--window-size=1920,1080");
+					chromiumOptions.addArguments("--disable-gpu");
+					chromiumOptions.addArguments("--no-sandbox");
+					chromiumOptions.addArguments("--disable-setuid-sandbox");
+					chromiumOptions.addArguments("--remote-allow-origins=*");
+					chromiumOptions.addArguments("--disable-blink-features=AutomationControlled");
+					chromiumOptions.addArguments(
+							"user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 " +
+									"(KHTML, like Gecko) Chromium/114.0.0.0 Safari/537.36"
+					);
+				}
+				return new ChromeDriver(chromiumOptions);
 
 			case "firefox":
 				WebDriverManager.firefoxdriver().setup();
@@ -108,6 +118,7 @@ public class BaseDriver {
 		}
 	}
 
+
 	@BeforeMethod(alwaysRun = true)
 	public synchronized void setBrowser(ITestContext context) throws Exception {
 		WebDriver driver = getBrowser(browserName);
@@ -122,10 +133,24 @@ public class BaseDriver {
 		setDriver(driver);
 	}
 
+
 	@AfterMethod(alwaysRun = true)
-	public synchronized void closeBrowser() {
-		getDriver().quit();
+	public synchronized void closeBrowser(ITestResult result) {
+		try {
+			if (result.getStatus() == ITestResult.FAILURE) {
+
+				BasePage basePage = new BasePage();
+				basePage.takeScreenShotAllureAttach(result.getName());
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			getDriver().quit();
+		}
 	}
+
 
 
 

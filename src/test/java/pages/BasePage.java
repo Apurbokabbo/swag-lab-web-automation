@@ -32,8 +32,10 @@ import java.util.regex.Pattern;
 public class BasePage {
 
 	Dotenv dotenv = Dotenv.load();
-	public String login_user_name = dotenv.get("LOGIN_USER_NAME");
+	public String login_user_name = dotenv.get("LOGIN_USER");
 	public String login_password = dotenv.get("LOGIN_PASSWORD");
+
+
 
 
 	private static final String LOWERCASE_CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
