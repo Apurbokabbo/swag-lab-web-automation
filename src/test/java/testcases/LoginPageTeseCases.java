@@ -18,7 +18,7 @@ public class LoginPageTeseCases extends BaseDriver{
 	@Test(groups = {"smoke", "regression"}, priority = 1)
 	public void loginWithValidCredentials() throws InterruptedException{
 		
-		loginObj.loginWithValidCredentials("standard_user", loginObj.PASSWORD);
+		loginObj.loginWithValidCredentials(loginObj.login_user_name, loginObj.login_password);
 		
 	}
 
@@ -33,7 +33,7 @@ public class LoginPageTeseCases extends BaseDriver{
 	@Test(groups = {"regression"}, priority = 2)
 	public void emptyFieldWarningMessageAssertion() throws InterruptedException {
 		loginObj.loginMethodWithOutValidData("","", "Epic sadface: Username is required");
-		loginObj.loginMethodWithOutValidData("standard_user","", "Epic sadface: Password is required");
+		loginObj.loginMethodWithOutValidData(loginObj.login_user_name,"", "Epic sadface: Password is required");
 
 	}
 

@@ -32,13 +32,24 @@ import java.util.regex.Pattern;
 public class BasePage {
 
 	Dotenv dotenv = Dotenv.load();
+	public String login_user_name = dotenv.get("LOGIN_USER_NAME");
+	public String login_password = dotenv.get("LOGIN_PASSWORD");
+
+
 	private static final String LOWERCASE_CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
 	private static final String UPPERCASE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private static final String NUMERIC_CHARACTERS = "0123456789";
 	private static final String SPECIAL_CHARACTERS = "$%&_+-.@#";
 
 	public String SWAG_LAB_PAGE_TITTLE_TEXT="Swag Labs";
+
+
+
+	//TOP NAV BAR ELEMENTS
+	public By TOP_NAV_BAR_CART_BUTTON = By.xpath("//a[@class='shopping_cart_link']");
+	public By HOME_MENU_BUTTON = By.xpath("//button[@id='react-burger-menu-btn']");
 	public By SWAG_LAB_PAGE_TITTLE_LOCATOR = By.xpath("//div[contains(text(),'Swag Labs')]");
+
 
 
 
