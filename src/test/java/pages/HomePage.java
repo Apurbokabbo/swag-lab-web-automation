@@ -2,7 +2,10 @@ package pages;
 
 import org.openqa.selenium.By;
 
+
 public class HomePage extends BasePage{
+
+	LoginPage loginPageObj = new LoginPage();
 
     public String ALL_RIGHT_TEXT = "© 2025 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy";
     public String a = "";
@@ -30,11 +33,24 @@ public class HomePage extends BasePage{
 	public By FIRST_PRODUCT_DESCRIPTION_LOCATOR = By.xpath("//div[@class=\"inventory_item_desc\" and @data-test=\"inventory-item-desc\"]");
 //	public By b = By.xpath("");
 
+	//Page Title
+	public By PAGE_TTITLE_LOCATOR = By.xpath("//span[@class='title']");
+
 
     //Footer
 	public By ALL_RIGHT_TEXT_LOCATOR = By.xpath("//div[@class='footer_copy']");
 	public By FOOTER_TWITTER_BUTTON = By.xpath("//a[normalize-space()='Twitter']");
 	public By FOOTER_FACEBOOK_BUTTON = By.xpath("//a[normalize-space()='Facebook']");
 	public By FOOTER_LINKEDIN_BUTTON = By.xpath("//a[normalize-space()='LinkedIn']");
+
+
+	public void appearHomePage (String userName , String password) throws InterruptedException {
+		loginPageObj.loginWithValidCredentials(userName, password);
+		waitForVisibilityOfElement(SWAG_LAB_PAGE_TITTLE_LOCATOR, 10);
+		passwordSaveAlertDisappear();
+		Thread.sleep(6000);
+		assertionHard(SWAG_LAB_PAGE_TITTLE_LOCATOR,SWAG_LAB_PAGE_TITTLE_TEXT);
+
+	}
 
 }

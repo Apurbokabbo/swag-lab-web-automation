@@ -53,6 +53,27 @@ public class BasePage {
 	public By SWAG_LAB_PAGE_TITTLE_LOCATOR = By.xpath("//div[contains(text(),'Swag Labs')]");
 
 
+	//Product
+	public String cart_page_tittle_text = "Your Cart";
+	public String cart_page_continue_shopping_button_text = "Continue Shopping";
+	public String cart_page_checkout_button_text = "Checkout";
+	public String cart_page_remove_button_text = "Remove";
+
+	public String first_item_name = "Sauce Labs Backpack";
+	public String second_item_name = "Sauce Labs Bike Light";
+	public String third_item_name = "Sauce Labs Bolt T-Shirt";
+	public String fourth_item_name = "Sauce Labs Fleece Jacket";
+	public String fifth_item_name = "Sauce Labs Onesie";
+	public String sixth_item_name = "Test.allTheThings() T-Shirt (Red)";
+
+	public String first_item_price = "$29.99";
+	public String second_item_price = "$9.99";
+	public String third_item_price = "$15.99";
+	public String fourth_item_price = "$49.99";
+	public String fifth_item_price = "$7.99";
+	public String sixth_item_price = "$15.99";
+
+
 
 
 	public static SoftAssert softAssert = new SoftAssert();
@@ -110,6 +131,57 @@ public class BasePage {
 	public void assertionSoft(By locator, String expected)
 	{
 		softAssert.assertEquals(getText(locator), expected, "Text did not match!");
+	}
+
+	public void passwordSaveAlertDisappear(){
+
+//		try {
+//			WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
+//			// Try multiple possible button texts
+//			List<String> buttonTexts = Arrays.asList("OK", "Not now", "No thanks", "Never");
+//
+//			for (String text : buttonTexts) {
+//				try {
+//					WebElement button = wait.until(ExpectedConditions.elementToBeClickable(
+//							By.xpath(String.format("//button[contains(text(), '%s')]", text))
+//					));
+//					button.click();
+//					return;
+//				} catch (TimeoutException ignored) {}
+//			}
+//		} catch (Exception e) {
+//			// Popup didn't appear, continue
+//		}
+		try {
+			// Method 1: Press Escape key
+			Actions actions = new Actions(getDriver());
+			actions.sendKeys(Keys.ESCAPE).perform();
+			Thread.sleep(500);
+			System.out.println("Pressed Escape to dismiss popup");
+
+		} catch (Exception e1) {
+			try {
+				// Method 2: Click outside the popup
+				JavascriptExecutor js = (JavascriptExecutor) getDriver();
+				js.executeScript("document.body.click();");
+				Thread.sleep(500);
+				System.out.println("Clicked outside popup");
+
+			} catch (Exception e2) {
+				try {
+					// Method 3: Try to find and click button
+					WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
+					WebElement button = wait.until(ExpectedConditions.elementToBeClickable(
+							By.cssSelector("button[aria-label*='OK'], button[aria-label*='Close'], button.mdc-button")
+					));
+					button.click();
+					System.out.println("Clicked dismiss button");
+
+				} catch (Exception e3) {
+					System.out.println("Could not dismiss popup, continuing...");
+				}
+			}
+		}
 	}
 
 	public void alertAccept(By locator)
