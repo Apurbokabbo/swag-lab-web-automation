@@ -19,7 +19,7 @@ public class CartPage extends BasePage{
     public String CART_OVER_VIEW_PAYMENT_INFORMATION_DATA_TEXT="SauceCard #";
     public String CART_OVER_VIEW_SHIPPING_INFO_LABEL_TEXT="Shipping Information:";
     public String CART_OVER_VIEW_PRICE_TOTAL_LABEL_TEXT="Price Total";
-    public String ="a";
+//    public String ="a";
 
 
 

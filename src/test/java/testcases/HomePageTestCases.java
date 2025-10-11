@@ -25,10 +25,12 @@ public class HomePageTestCases extends BaseDriver {
         homePageObj.assertionURL(HOME_URL);
     }
 
-    @Test
+    @Severity(SeverityLevel.CRITICAL)
+    @Test(groups = {"smoke", "regression"}, priority = 1)
     public void test() throws InterruptedException {
         homePageObj.appearHomePage(loginPageObj.login_user_name, loginPageObj.login_password);
-        homePageObj.isElementVisible(homePageObj.SWAG_LAB_PAGE_TITTLE_LOCATOR ,10);
+        homePageObj.applyAndVerifyFilter(homePageObj.SORT_BUTTON, "Price (low to high)");
+
 
     }
 

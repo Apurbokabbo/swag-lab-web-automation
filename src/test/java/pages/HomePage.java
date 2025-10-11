@@ -1,6 +1,15 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+import static utilities.BaseDriver.getDriver;
 
 
 public class HomePage extends BasePage{
@@ -48,9 +57,78 @@ public class HomePage extends BasePage{
 		loginPageObj.loginWithValidCredentials(userName, password);
 		waitForVisibilityOfElement(SWAG_LAB_PAGE_TITTLE_LOCATOR, 10);
 		passwordSaveAlertDisappear();
-		Thread.sleep(6000);
 		assertionHard(SWAG_LAB_PAGE_TITTLE_LOCATOR,SWAG_LAB_PAGE_TITTLE_TEXT);
 
+	}
+
+	 /*
+	 * @param filterLocator  The By locator for the filter dropdown
+	 * @param filterOption   The visible text of the option to select (e.g. "Price (low to high)", "Name (A to Z)")
+	 */
+	public void applyAndVerifyFilter(By filterLocator, String filterOption) {
+		WebElement filterDropdown = getDriver().findElement(filterLocator);
+		Select select = new Select(filterDropdown);
+
+		// Select the filter option
+		select.selectByVisibleText(filterOption);
+
+		// Verify correct option selected
+		String selectedOption = select.getFirstSelectedOption().getText();
+		Assert.assertEquals(selectedOption, filterOption, "Filter selection mismatch!");
+
+		// Check sorting logic depending on selected filter
+		switch (filterOption) {
+			case "Name (A to Z)":
+				verifyNameOrder(true);
+				break;
+			case "Name (Z to A)":
+				verifyNameOrder(false);
+				break;
+			case "Price (low to high)":
+				verifyPriceOrder(true);
+				break;
+			case "Price (high to low)":
+				verifyPriceOrder(false);
+				break;
+			default:
+				throw new IllegalArgumentException("Unsupported filter: " + filterOption);
+		}
+	}
+
+	/**
+	 * Verifies that product names are sorted correctly (A–Z or Z–A).
+	 * @param ascending true for A–Z, false for Z–A
+	 */
+	private void verifyNameOrder(boolean ascending) {
+		List<WebElement> nameElements = getDriver().findElements(By.className("inventory_item_name"));
+		List<String> names = new ArrayList<>();
+
+		for (WebElement name : nameElements) {
+			names.add(name.getText().trim());
+		}
+
+		List<String> sortedNames = new ArrayList<>(names);
+		sortedNames.sort(ascending ? Comparator.naturalOrder() : Comparator.reverseOrder());
+
+		Assert.assertEquals(names, sortedNames, "Product names are not sorted correctly (" + (ascending ? "A–Z" : "Z–A") + ")");
+	}
+
+	/**
+	 * Verifies that product prices are sorted correctly (low–high or high–low).
+	 * @param ascending true for low–high, false for high–low
+	 */
+	private void verifyPriceOrder(boolean ascending) {
+		List<WebElement> priceElements = getDriver().findElements(By.className("inventory_item_price"));
+		List<Double> prices = new ArrayList<>();
+
+		for (WebElement price : priceElements) {
+			prices.add(Double.parseDouble(price.getText().replace("$", "")));
+		}
+
+		List<Double> sortedPrices = new ArrayList<>(prices);
+		sortedPrices.sort(ascending ? Comparator.naturalOrder() : Comparator.reverseOrder());
+
+		Assert.assertEquals(prices, sortedPrices, "Product prices are not sorted correctly (" + (ascending ? "Low–High" : "High–Low") + ")");
 	}
 
 }
