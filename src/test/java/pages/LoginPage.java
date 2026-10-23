@@ -2,6 +2,7 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.DataProvider;
 import utilities.ConfigReader;
 
 
@@ -25,7 +26,34 @@ public class LoginPage extends BasePage{
 	public By LOGIN_BUTTON = By.xpath("//input[@id='login-button']"); 
 	public By PASSWORD_FOR_ALL_USERS_LOCATOR = By.xpath("//body/div[@id='root']/div[1]/div[2]/div[2]/div[1]/div[2]"); 
 	public By ACCEPTED_USER_NAMES = By.xpath("//div[@id='login_credentials']"); 
-	public By ERROR_MESSAGE_LOCATOR = By.xpath("//body/div[@id='root']/div[1]/div[2]/div[1]/div[1]/div[1]/form[1]/div[3]/h3[1]"); 
+	public By ERROR_MESSAGE_LOCATOR = By.xpath("//body/div[@id='root']/div[1]/div[2]/div[1]/div[1]/div[1]/form[1]/div[3]/h3[1]");
+
+
+	@DataProvider(name = "invalidLoginData")
+	public static Object[][] invalidLoginData() {
+		String mismatch = "Epic sadface: Username and password do not match any user in this service";
+		return new Object[][]{
+				// username,             password,                       expected error message
+				{"",                     "",                             "Epic sadface: Username is required"},
+				{"standard_user",        "",                             "Epic sadface: Password is required"},
+				{"",                     "secret_sauce",                 "Epic sadface: Username is required"},
+				{"wrong_user",           "secret_sauce",                 mismatch},
+				{"standard_user",        "wrong_password",               mismatch},
+				{"wrong_user",           "wrong_password",               mismatch},
+				{"STANDARD_USER",        "secret_sauce",                 mismatch},   // username is case-sensitive
+				{"standard_user",        "SECRET_SAUCE",                 mismatch},   // password is case-sensitive
+				{" standard_user ",      "secret_sauce",                 mismatch},   // leading/trailing spaces
+				{"' OR '1'='1",          "' OR '1'='1",                  mismatch},   // SQL-injection style input
+				{"<script>alert(1)</script>", "secret_sauce",            mismatch}    // script-style input
+		};
+	}
+
+	@DataProvider(name = "lockedOutUser")
+	public static Object[][] lockedOutUser() {
+		return new Object[][]{
+				{"locked_out_user", "secret_sauce", "Epic sadface: Sorry, this user has been locked out."}
+		};
+	}
 
 	
 	
