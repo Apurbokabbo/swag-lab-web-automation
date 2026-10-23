@@ -1,6 +1,6 @@
 package pages;
 
-import io.github.cdimascio.dotenv.Dotenv;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.*;
@@ -9,31 +9,25 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import io.qameta.allure.Allure;
+import utilities.ConfigReader;
 import utilities.TestListener;
-
 import static org.testng.Assert.assertEquals;
 import static utilities.BaseDriver.getDriver;
-
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.*;
 import java.security.SecureRandom;
 import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 
 public class BasePage extends CommonLocators{
 
-	Dotenv dotenv = Dotenv.load();
-	public String login_user_name = dotenv.get("LOGIN_USER");
-	public String login_password = dotenv.get("LOGIN_PASSWORD");
+
 
 
 

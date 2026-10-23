@@ -2,11 +2,13 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import utilities.ConfigReader;
 
 
 public class LoginPage extends BasePage{
-	
-	
+
+	public String login_user_name = ConfigReader.get("LOGIN_USER","");
+	public String login_password = ConfigReader.get("LOGIN_PASSWORD","");
 
 	public String LOGIN_PAGE_USER_NAME_INPUT_FIELD_PLACEHOLDER_TEXT = "Username";
 	public String LOGIN_PAGE_PASSWORD_INPUT_FIELD_PLACEHOLDER_TEXT = "Password";

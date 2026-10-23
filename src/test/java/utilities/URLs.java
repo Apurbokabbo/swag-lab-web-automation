@@ -1,12 +1,12 @@
 package utilities;
 
-import pages.BasePage;
+public class URLs {
 
-public class URLs extends BasePage {
+    public static final String BASE_URL = ConfigReader.get("BASE_URL", "");
 
-    public static final String BASE_URL="https://www.saucedemo.com/";
-    public static final String HOME_URL="https://www.saucedemo.com/inventory.html";
-    public static final String CART_URL="https://www.saucedemo.com/cart.html";
-    public static final String CHECKOUT_URL="https://www.saucedemo.com/checkout-step-one.html";
+    public static final String HOME_URL = BASE_URL + "/inventory.html";
 
+    public static final String CART_URL = BASE_URL + "/cart.html";
+
+    public static final String CHECKOUT_URL = BASE_URL + "/checkout-step-one.html";
 }
