@@ -13,6 +13,10 @@
 		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<aspectj.version>1.9.25</aspectj.version>
+		<!-- One place to update Selenium. Use the latest 4.x from mvnrepository.com -->
+		<selenium.version>4.35.0</selenium.version>
+		<!-- Which suite "mvn test" runs. Override: mvn test -DsuiteFile=SmokeTestSuite.xml -->
+		<suiteFile>RegressionTestSuite.xml</suiteFile>
 	</properties>
 
 	<dependencies>
@@ -23,22 +27,14 @@
 			<version>0.7.7.0</version>
 		</dependency>
 
-		<!-- Selenium -->
+		<!-- Selenium (DevTools removed: nothing in the code uses it) -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>4.18.1</version>
-
+			<version>${selenium.version}</version>
 		</dependency>
 
-		<!-- Selenium DevTools (match same version as selenium-java) -->
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-devtools-v137</artifactId>
-			<version>4.35.0</version>
-		</dependency>
-
-		<!-- WebDriverManager -->
+		<!-- WebDriverManager (optional: Selenium Manager already downloads drivers) -->
 		<dependency>
 			<groupId>io.github.bonigarcia</groupId>
 			<artifactId>webdrivermanager</artifactId>
@@ -60,7 +56,7 @@
 			<version>2.29.0</version>
 		</dependency>
 
-		<!-- Logging (STABLE version) -->
+		<!-- Logging: logback reads src/test/resources/logback.xml and prints to stdout (not red) -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -68,10 +64,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>2.0.13</version>
-			<scope>test</scope>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.5.6</version>
 		</dependency>
 
 		<!-- AspectJ -->
@@ -97,6 +92,9 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.5.2</version>
 				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>${suiteFile}</suiteXmlFile>
+					</suiteXmlFiles>
 					<argLine>
 						-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
 					</argLine>

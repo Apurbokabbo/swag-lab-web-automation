@@ -237,4 +237,5 @@ public class CartPageTestCase extends BaseDriver {
         Assert.assertEquals(homePageObj.getCartBadgeCount(), 0, "Cart should be empty after the order");
         cartPageObj.logInfo("Order completed successfully");
     }
+
 }

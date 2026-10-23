@@ -2,18 +2,16 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Regression Test Suite">
 
-    <!-- All Regression Tests -->
+    <!-- Runs every class in the "testcases" package that has a test in group "regression".
+         New test classes are picked up automatically; no need to edit this file. -->
     <test name="Regression Tests" parallel="methods" thread-count="2">
         <groups>
             <run>
                 <include name="regression"/>
             </run>
         </groups>
-        <classes>
-            <class name="testcases.LoginPageTeseCase"/>
-            <class name="testcases.HomePageTestCase"/>
-            <class name="testcases.CartPageTestCase"/>
-            <class name="testcases.MenuPageTestCase"/>
-        </classes>
+        <packages>
+            <package name="testcases"/>
+        </packages>
     </test>
 </suite>
