@@ -3,6 +3,15 @@ package pages;
 import org.openqa.selenium.By;
 
 public class CommonLocators {
+
+
+    //wait times configuration
+    public  int long_wait = 45;
+    public  int medium_wait = 20;
+    public  int small_wait = 10;
+
+
+
     public String SWAG_LAB_PAGE_TITTLE_TEXT="Swag Labs";
 
 
