@@ -20,6 +20,7 @@ public class CommonLocators {
     public By TOP_NAV_BAR_CART_BUTTON = By.xpath("//a[@class='shopping_cart_link']");
     public By HOME_MENU_BUTTON = By.xpath("//button[@id='react-burger-menu-btn']");
     public By SWAG_LAB_PAGE_TITTLE_LOCATOR = By.xpath("//div[contains(text(),'Swag Labs')]");
+    public By LOGIN_PAGE_LOGO_LOCATOR = By.xpath("//div[@class='login_logo']");
 
 
     //Product
