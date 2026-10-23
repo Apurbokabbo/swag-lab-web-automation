@@ -12,7 +12,7 @@ import static utilities.URLs.BASE_URL;
 
 @Epic("Login Page Test Cases")
 @Feature("Authentication")
-public class LoginPageTeseCases extends BaseDriver {
+public class LoginPageTeseCase extends BaseDriver {
 
 	LoginPage loginObj = new LoginPage();
 

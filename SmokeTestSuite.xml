@@ -10,9 +10,10 @@
             </run>
         </groups>
         <classes>
-            <class name="testcases.LoginPageTeseCases"/>
-            <class name="testcases.HomePageTestCases"/>
-            <class name="testcases.CartPageTestCases"/>
+            <class name="testcases.LoginPageTeseCase"/>
+            <class name="testcases.HomePageTestCase"/>
+            <class name="testcases.CartPageTestCase"/>
+            <class name="testcases.MenuPageTestCase"/>
         </classes>
     </test>
 </suite>

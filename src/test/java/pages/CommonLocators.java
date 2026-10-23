@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.testng.annotations.DataProvider;
 
 public class CommonLocators {
 
@@ -42,4 +43,21 @@ public class CommonLocators {
     public String fourth_item_price = "$49.99";
     public String fifth_item_price = "$7.99";
     public String sixth_item_price = "$15.99";
+
+    // ===================== DATA PROVIDERS =====================
+
+    @DataProvider(name = "products")
+    public static Object[][] products() {
+        HomePage p = new HomePage();
+        return new Object[][]{
+                {p.first_item_name,  p.first_item_price},
+                {p.second_item_name, p.second_item_price},
+                {p.third_item_name,  p.third_item_price},
+                {p.fourth_item_name, p.fourth_item_price},
+                {p.fifth_item_name,  p.fifth_item_price},
+                {p.sixth_item_name,  p.sixth_item_price}
+        };
+    }
+
+
 }

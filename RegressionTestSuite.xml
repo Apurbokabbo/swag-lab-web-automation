@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Regression Test Suite">
 
-    <!-- All Smoke Tests -->
+    <!-- All Regression Tests -->
     <test name="Regression Tests" parallel="methods" thread-count="2">
         <groups>
             <run>
@@ -10,9 +10,10 @@
             </run>
         </groups>
         <classes>
-            <class name="testcases.LoginPageTeseCases"/>
-            <class name="testcases.HomePageTestCases"/>
-            <class name="testcases.CartPageTestCases"/>
+            <class name="testcases.LoginPageTeseCase"/>
+            <class name="testcases.HomePageTestCase"/>
+            <class name="testcases.CartPageTestCase"/>
+            <class name="testcases.MenuPageTestCase"/>
         </classes>
     </test>
 </suite>

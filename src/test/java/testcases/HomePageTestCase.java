@@ -19,7 +19,7 @@ import static utilities.URLs.HOME_URL;
 
 @Epic("Home Page Test Cases")
 @Feature("Home Page Functionality")
-public class HomePageTestCases extends BaseDriver {
+public class HomePageTestCase extends BaseDriver {
 
     HomePage homePageObj = new HomePage();
 
@@ -170,13 +170,12 @@ public class HomePageTestCases extends BaseDriver {
     public void verifyTwitterFooterLinkWorking() {
 
         homePageObj.scrollToElement(homePageObj.ALL_RIGHT_TEXT_LOCATOR);
-
         String expectedUrl = homePageObj.getButtonLink(homePageObj.FOOTER_TWITTER_BUTTON);
-
         homePageObj.fluentWaitClickOnElement(homePageObj.FOOTER_TWITTER_BUTTON,homePageObj.small_wait);
-
+        homePageObj.logInfo("Twitter footer link clicked");
         homePageObj.windowSwitch(1);
         homePageObj.assertionURL(expectedUrl);
+        homePageObj.logInfo("Twitter footer link is working correctly");
 
     }
 
@@ -185,14 +184,12 @@ public class HomePageTestCases extends BaseDriver {
     public void verifyFacebookFooterLinkWorking() {
 
         homePageObj.scrollToElement(homePageObj.ALL_RIGHT_TEXT_LOCATOR);
-
         String expectedUrl = homePageObj.getButtonLink(homePageObj.FOOTER_FACEBOOK_BUTTON);
-
-        homePageObj.fluentWaitClickOnElement(homePageObj.FOOTER_FACEBOOK_BUTTON, homePageObj.small_wait
-        );
-
+        homePageObj.logInfo("Facebook footer link clicked");
+        homePageObj.fluentWaitClickOnElement(homePageObj.FOOTER_FACEBOOK_BUTTON, homePageObj.small_wait);
         homePageObj.windowSwitch(1);
         homePageObj.assertionURL(expectedUrl);
+        homePageObj.logInfo("Facebook footer link is working correctly");
     }
 
     @Severity(SeverityLevel.MINOR)
@@ -200,13 +197,12 @@ public class HomePageTestCases extends BaseDriver {
     public void verifyLinkedInFooterLinkWorking() {
 
         homePageObj.scrollToElement(homePageObj.ALL_RIGHT_TEXT_LOCATOR);
-
         String expectedUrl = homePageObj.getButtonLink(homePageObj.FOOTER_LINKEDIN_BUTTON);
-
+        homePageObj.logInfo("LinkedIn footer link clicked");
         homePageObj.fluentWaitClickOnElement(homePageObj.FOOTER_LINKEDIN_BUTTON, homePageObj.small_wait);
-
         homePageObj.windowSwitch(1);
         homePageObj.assertionURL(expectedUrl);
+        homePageObj.logInfo("LinkedIn footer link is working correctly");
     }
 
 
