@@ -4,7 +4,6 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import utilities.BaseDriver;
@@ -25,10 +24,8 @@ public class LoginPageTeseCases extends BaseDriver {
 		loginObj.isElementVisible(loginObj.LOGIN_PAGE_TITTLE_LOCATOR, loginObj.small_wait);
 		loginObj.isElementVisible(loginObj.LOGIN_PAGE_LOGO_LOCATOR, loginObj.small_wait);
 		loginObj.assertionURL(BASE_URL);
-		loginObj.assertPlaceholderText(loginObj.LOGIN_PAGE_USER_NAME_INPUT_FIELD,
-				loginObj.LOGIN_PAGE_USER_NAME_INPUT_FIELD_PLACEHOLDER_TEXT);
-		loginObj.assertPlaceholderText(loginObj.LOGIN_PAGE_PASSWORD_INPUT_FIELD,
-				loginObj.LOGIN_PAGE_PASSWORD_INPUT_FIELD_PLACEHOLDER_TEXT);
+		loginObj.assertPlaceholderText(loginObj.LOGIN_PAGE_USER_NAME_INPUT_FIELD, loginObj.LOGIN_PAGE_USER_NAME_INPUT_FIELD_PLACEHOLDER_TEXT);
+		loginObj.assertPlaceholderText(loginObj.LOGIN_PAGE_PASSWORD_INPUT_FIELD, loginObj.LOGIN_PAGE_PASSWORD_INPUT_FIELD_PLACEHOLDER_TEXT);
 		loginObj.isElementVisible(loginObj.LOGIN_BUTTON, loginObj.small_wait);
 		loginObj.logInfo("Login page elements are visible");
 	}
@@ -36,14 +33,14 @@ public class LoginPageTeseCases extends BaseDriver {
 	@Severity(SeverityLevel.CRITICAL)
 	@Test(groups = {"smoke", "regression"},description = "Login with valid credentials", priority = 1)
 	public void loginWithValidCredentials() {
-		loginObj.loginWithValidCredentials(loginObj.login_user_name, loginObj.login_password);
+		loginObj.loginWithValidCredentials(loginObj.STANDARD_USER_NAME, loginObj.PASSWORD);
 	}
 
 	@Severity(SeverityLevel.NORMAL)
 	@Test(groups = {"regression"}, description = "Assert warning messages for empty login fields",priority = 2)
 	public void emptyFieldWarningMessageAssertion() {
 		loginObj.loginWithInvalidData("", "", "Epic sadface: Username is required");
-		loginObj.loginWithInvalidData(loginObj.login_user_name, "", "Epic sadface: Password is required");
+		loginObj.loginWithInvalidData(loginObj.STANDARD_USER_NAME, "", "Epic sadface: Password is required");
 	}
 
 

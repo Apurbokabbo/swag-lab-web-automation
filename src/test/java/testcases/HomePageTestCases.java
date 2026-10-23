@@ -1,16 +1,18 @@
 package testcases;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LoginPage;
 import utilities.BaseDriver;
-
-
-
-import static pages.BasePage.softAssert;
 import static utilities.URLs.HOME_URL;
+
+
+@Epic("Home Page Test Cases")
+@Feature("Home Page Functionality")
 
 public class HomePageTestCases extends BaseDriver {
 
@@ -19,8 +21,8 @@ public class HomePageTestCases extends BaseDriver {
 
     @Severity(SeverityLevel.NORMAL)
     @Test(groups = {"smoke", "regression"}, priority = 0)
-    public void homePageAppearanceTestAndAssertion() throws InterruptedException {
-        loginPageObj.loginWithValidCredentials(loginPageObj.login_user_name, loginPageObj.login_password);
+    public void homePageAppearanceTestAndAssertion()  {
+        loginPageObj.loginWithValidCredentials(loginPageObj.STANDARD_USER_NAME, loginPageObj.PASSWORD);
         homePageObj.isElementVisible(homePageObj.SWAG_LAB_PAGE_TITTLE_LOCATOR ,10);
         homePageObj.assertionURL(HOME_URL);
     }
@@ -28,7 +30,7 @@ public class HomePageTestCases extends BaseDriver {
     @Severity(SeverityLevel.CRITICAL)
     @Test(groups = {"smoke", "regression"}, priority = 1)
     public void test() throws InterruptedException {
-        homePageObj.appearHomePage(loginPageObj.login_user_name, loginPageObj.login_password);
+        homePageObj.appearHomePage(loginPageObj.STANDARD_USER_NAME, loginPageObj.PASSWORD);
         homePageObj.applyAndVerifyFilter(homePageObj.SORT_BUTTON, "Price (low to high)");
 
 

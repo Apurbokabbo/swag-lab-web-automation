@@ -3,14 +3,16 @@
 <suite name="Smoke Test Suite">
 
     <!-- All Smoke Tests -->
-    <test name="Smoke Tests" parallel="methods" thread-count="1">
+    <test name="Smoke Tests" parallel="methods" thread-count="2">
         <groups>
             <run>
                 <include name="smoke"/>
             </run>
         </groups>
         <classes>
-
+            <class name="testcases.LoginPageTeseCases"/>
+            <class name="testcases.HomePageTestCases"/>
+            <class name="testcases.CartPageTestCases"/>
         </classes>
     </test>
 </suite>
