@@ -11,7 +11,6 @@ import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,12 +27,7 @@ public class HomePage extends BasePage {
 
 	public String ALL_RIGHT_TEXT = "© 2025 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy";
 
-	// ===================== MENU BUTTONS =====================
-	public By HOME_MENU__CROSS_BUTTON = By.xpath("//button[@id='react-burger-cross-btn']");
-	public By HOME_MENU_ALL_ITEMS_BUTTON = By.xpath("//a[@id='inventory_sidebar_link']");
-	public By HOME_MENU_ABOUT_BUTTON = By.xpath("//a[@id='about_sidebar_link']");
-	public By HOME_MENU_LOGOUT_BUTTON = By.xpath("//a[@id='logout_sidebar_link']");
-	public By HOME_MENU_RESET_APP_STATE = By.xpath("//a[@id='reset_sidebar_link']");
+
 
 	// ===================== SORTING =====================
 	public By SORT_BUTTON = By.xpath("//select[@class='product_sort_container']");
@@ -47,17 +41,28 @@ public class HomePage extends BasePage {
 	public By FIRST_PRODUCT_PRICE_LOCATION = By.xpath("//div[3]//div[2]//div[2]//div[1]");
 	public By FIRST_PRODUCT_ADD_TO_CART_BUTTON = By.xpath("//button[@id='add-to-cart-sauce-labs-bolt-t-shirt']");
 	public By FIRST_PRODUCT_TITTLE_LOCATION = By.xpath("//div[normalize-space()='Sauce Labs Fleece Jacket']");
-	public By FIRST_PRODUCT_DESCRIPTION_LOCATOR =
-			By.xpath("//div[@class='inventory_item_desc' and @data-test='inventory-item-desc']");
+	public By FIRST_PRODUCT_DESCRIPTION_LOCATOR = By.xpath("//div[@class='inventory_item_desc' and @data-test='inventory-item-desc']");
 
 	// ===================== PAGE TITLE =====================
 	public By PAGE_TTITLE_LOCATOR = By.xpath("//span[@class='title']");
 
 	// ===================== FOOTER =====================
 	public By ALL_RIGHT_TEXT_LOCATOR = By.xpath("//div[@class='footer_copy']");
-	public By FOOTER_TWITTER_BUTTON = By.xpath("//a[normalize-space()='Twitter']");
-	public By FOOTER_FACEBOOK_BUTTON = By.xpath("//a[normalize-space()='Facebook']");
-	public By FOOTER_LINKEDIN_BUTTON = By.xpath("//a[normalize-space()='LinkedIn']");
+//	public By FOOTER_TWITTER_BUTTON = By.xpath("//a[normalize-space()='Twitter']");
+//	public By FOOTER_FACEBOOK_BUTTON = By.xpath("//a[normalize-space()='Facebook']");
+//	public By FOOTER_LINKEDIN_BUTTON = By.xpath("//a[normalize-space()='LinkedIn']");
+	public By FOOTER_TWITTER_BUTTON = By.cssSelector("a[data-test='social-x']");
+	public By FOOTER_FACEBOOK_BUTTON = By.cssSelector("a[href*='facebook.com']");
+	public By FOOTER_LINKEDIN_BUTTON = By.cssSelector("a[href*='linkedin.com']");
+
+	// ===================== INTERNAL LOCATORS =====================
+	private static final By PRODUCT_NAME = By.className("inventory_item_name");
+	private static final By PRODUCT_PRICE = By.className("inventory_item_price");
+
+	// ===================== PRODUCT / CART / FOOTER HELPERS =====================
+	public By CART_BADGE = By.className("shopping_cart_badge");
+	public By PRODUCT_DETAIL_NAME = By.className("inventory_details_name");
+	public By BACK_TO_PRODUCTS_BUTTON = By.id("back-to-products");
 
 	@DataProvider(name = "products")
 	public static Object[][] products() {
@@ -81,17 +86,14 @@ public class HomePage extends BasePage {
 	}
 
 
-	// ===================== INTERNAL LOCATORS =====================
-	private static final By PRODUCT_NAME = By.className("inventory_item_name");
-	private static final By PRODUCT_PRICE = By.className("inventory_item_price");
-
 	// Created on demand so the driver already exists when it is used
 	private WebDriverWait explicitWait() {
 		return new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 	}
 
 	// ===================== ACTIONS =====================
-	public void appearHomePage(String userName, String password) throws InterruptedException {
+
+	public void appearHomePage(String userName, String password)  {
 		loginPageObj.loginWithValidCredentials(userName, password);
 		waitForVisibilityOfElement(SWAG_LAB_PAGE_TITTLE_LOCATOR, 10);
 		assertionHard(SWAG_LAB_PAGE_TITTLE_LOCATOR, SWAG_LAB_PAGE_TITTLE_TEXT);
@@ -105,8 +107,7 @@ public class HomePage extends BasePage {
 	 *                      "Price (low to high)", "Price (high to low)"
 	 */
 	public void applyAndVerifyFilter(By filterLocator, String filterOption) {
-		WebElement filterDropdown =
-				explicitWait().until(ExpectedConditions.elementToBeClickable(filterLocator));
+		WebElement filterDropdown = explicitWait().until(ExpectedConditions.elementToBeClickable(filterLocator));
 
 		// Real <select> first, custom dropdown as fallback
 		try {
@@ -183,10 +184,7 @@ public class HomePage extends BasePage {
 		}
 	}
 
-	// ===================== PRODUCT / CART / FOOTER HELPERS =====================
-	public By CART_BADGE = By.className("shopping_cart_badge");
-	public By PRODUCT_DETAIL_NAME = By.className("inventory_details_name");
-	public By BACK_TO_PRODUCTS_BUTTON = By.id("back-to-products");
+
 
 	/** "Sauce Labs Backpack" -> "sauce-labs-backpack" (same pattern the site uses for button ids). */
 	private String slug(String productName) {
@@ -225,11 +223,11 @@ public class HomePage extends BasePage {
 	}
 
 	public void addToCart(String productName) {
-		clickOn(addToCartButton(productName));
+		fluentWaitClickOnElement(addToCartButton(productName),small_wait);
 	}
 
 	public void removeFromCart(String productName) {
-		clickOn(removeButton(productName));
+		fluentWaitClickOnElement(removeButton(productName),small_wait);
 	}
 
 	/** Number shown on the cart badge; 0 when the badge is not displayed. */
@@ -239,10 +237,10 @@ public class HomePage extends BasePage {
 	}
 
 	public void openProductDetails(String productName) {
-		clickOn(productNameLink(productName));
+		fluentWaitClickOnElement(productNameLink(productName),small_wait);
 	}
 
-	public String getLinkHref(By locator) {
-		return findElement(locator).getAttribute("href");
+	public String getButtonLink(By locator) {
+		return getDriver().findElement(locator).getAttribute("href");
 	}
 }

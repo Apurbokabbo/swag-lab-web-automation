@@ -4,6 +4,9 @@ target/
 !**/src/test/**/target/
 /allure-results
 
+.target/
+
+
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

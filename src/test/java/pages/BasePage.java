@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import io.qameta.allure.Allure;
-import utilities.ConfigReader;
 import utilities.TestListener;
 import static org.testng.Assert.assertEquals;
 import static utilities.BaseDriver.getDriver;
@@ -26,10 +25,6 @@ import java.util.NoSuchElementException;
 
 
 public class BasePage extends CommonLocators{
-
-
-
-
 
 
 	private static final String LOWERCASE_CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
@@ -102,6 +97,7 @@ public class BasePage extends CommonLocators{
 			Actions actions = new Actions(getDriver());
 			actions.sendKeys(Keys.ESCAPE).perform();
 			Thread.sleep(500);
+			logInfo("Pressed Escape to dismiss popup");
 			System.out.println("Pressed Escape to dismiss popup");
 
 		} catch (Exception e1) {
@@ -110,6 +106,7 @@ public class BasePage extends CommonLocators{
 				JavascriptExecutor js = (JavascriptExecutor) getDriver();
 				js.executeScript("document.body.click();");
 				Thread.sleep(500);
+				logInfo("Clicked outside popup");
 				System.out.println("Clicked outside popup");
 
 			} catch (Exception e2) {
@@ -120,10 +117,12 @@ public class BasePage extends CommonLocators{
 							By.cssSelector("button[aria-label*='OK'], button[aria-label*='Close'], button.mdc-button")
 					));
 					button.click();
+					logInfo("Clicked dismiss button");
 					System.out.println("Clicked dismiss button");
 
 				} catch (Exception e3) {
 					System.out.println("Could not dismiss popup, continuing...");
+					logInfo("Could not dismiss popup, continuing...");
 				}
 			}
 		}
@@ -145,44 +144,6 @@ public class BasePage extends CommonLocators{
 	{
 		clickOn(locator);
 		getDriver().switchTo().alert().sendKeys(text);
-
-	}
-
-	public void dropDownSelectByVisibleText(By locator, String text)
-	{
-		Select select = new Select(findElement(locator));
-		select.selectByVisibleText(text);
-	}
-
-	public void dropDownSelectByValue(By locator, String text)
-	{
-		Select select = new Select(findElement(locator));
-		select.selectByValue(text);
-	}
-
-	public void dropDownSelectByIndex(By locator, int index)
-	{
-		Select select = new Select(findElement(locator));
-		select.selectByIndex(index);
-
-	}
-
-	public void dropDownDeselectByVisibleText(By locator, String text)
-	{
-		Select select = new Select(findElement(locator));
-		select.deselectByVisibleText(text);
-	}
-
-	public void dropDownDeselectByValue(By locator, String text)
-	{
-		Select select = new Select(findElement(locator));
-		select.deselectByValue(text);
-	}
-
-	public void dropDownDeselectByIndex(By locator, int index)
-	{
-		Select select = new Select(findElement(locator));
-		select.deselectByIndex(index);
 
 	}
 
@@ -436,7 +397,7 @@ public class BasePage extends CommonLocators{
 
 
 	public void toasterMessageAssertion(By toaster_locator , String expectMessage){
-		isElementVisible(toaster_locator,7);
+		isElementVisible(toaster_locator,small_wait);
 		assertionSoft(toaster_locator,expectMessage);
 	}
 
@@ -457,35 +418,6 @@ public class BasePage extends CommonLocators{
 		// Combine username and domain to form the email address
 		return username.toString() + "@" + domain;
 	}
-
-	public  String generatePassword(int length) {
-		SecureRandom random = new SecureRandom();
-		StringBuilder password = new StringBuilder();
-
-		// Ensure at least one character from each character set
-		password.append(LOWERCASE_CHARACTERS.charAt(random.nextInt(LOWERCASE_CHARACTERS.length())));
-		password.append(UPPERCASE_CHARACTERS.charAt(random.nextInt(UPPERCASE_CHARACTERS.length())));
-		password.append(NUMERIC_CHARACTERS.charAt(random.nextInt(NUMERIC_CHARACTERS.length())));
-		password.append(SPECIAL_CHARACTERS.charAt(random.nextInt(SPECIAL_CHARACTERS.length())));
-
-		// Generate the remaining characters
-		for (int i = 4; i < length; i++) {
-			String allCharacters = LOWERCASE_CHARACTERS + UPPERCASE_CHARACTERS + NUMERIC_CHARACTERS + SPECIAL_CHARACTERS;
-			password.append(allCharacters.charAt(random.nextInt(allCharacters.length())));
-		}
-
-		// Shuffle the generated characters for better randomness
-		char[] passwordArray = password.toString().toCharArray();
-		for (int i = passwordArray.length - 1; i > 0; i--) {
-			int index = random.nextInt(i + 1);
-			char temp = passwordArray[index];
-			passwordArray[index] = passwordArray[i];
-			passwordArray[i] = temp;
-		}
-		String pass = new String(passwordArray);
-		return pass;
-	}
-
 
 	public void logInfo(String info){
 		String border = "-------------------------------------------------";
@@ -514,29 +446,7 @@ public class BasePage extends CommonLocators{
 		Thread.sleep(1000);
 	}
 
-	public void eyeButtonTypeVerifier(By inputFieldLocator, By eyeButtonLocator) {
-		// Wait for password field to be visible
-		isElementVisible(inputFieldLocator, 10);
-		WebElement passwordField = findElement(inputFieldLocator);
 
-		passwordField.sendKeys("Password100@");
-
-		// Click the eye icon to show password
-		fluentWaitClickOnElement(eyeButtonLocator, 5);
-
-		// Verify password is now visible (type = "text")
-		passwordField = findElement(inputFieldLocator);
-		String afterFirstClick = passwordField.getAttribute("type");
-		Assert.assertEquals(afterFirstClick, "text", "Password field should be visible (type='text') after first click.");
-
-		// Click the eye icon again to hide password
-		fluentWaitClickOnElement(eyeButtonLocator, 5);
-
-		// Verify password is now hidden (type = "password")
-//		passwordField = findElement(inputFieldLocator);
-		String afterSecondClick = findElement(inputFieldLocator).getAttribute("type");
-		Assert.assertEquals(afterSecondClick, "password", "Password field should be hidden (type='password') after second click.");
-	}
 
 	public void saveToFile(String value , File FILE_PATH) {
 

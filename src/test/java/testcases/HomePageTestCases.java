@@ -6,12 +6,10 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LoginPage;
 import utilities.BaseDriver;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -40,7 +38,7 @@ public class HomePageTestCases extends BaseDriver {
     @Test(groups = {"smoke", "regression"}, priority = 0, description = "Home page appears with all main elements")
     public void homePageAppearanceTestAndAssertion() {
         Assert.assertEquals(homePageObj.getUrl(), HOME_URL, "Home page URL mismatch");
-        // isElementVisible only returns true/false, so it must be asserted
+
         Assert.assertTrue(homePageObj.isElementVisible(homePageObj.SWAG_LAB_PAGE_TITTLE_LOCATOR, homePageObj.small_wait), "Swag Labs title not visible");
         Assert.assertTrue(homePageObj.isElementVisible(homePageObj.HOME_MENU_BUTTON, homePageObj.small_wait), "Menu button not visible");
         Assert.assertTrue(homePageObj.isElementVisible(homePageObj.TOP_NAV_BAR_CART_BUTTON, homePageObj.small_wait), "Cart button not visible");
@@ -67,6 +65,7 @@ public class HomePageTestCases extends BaseDriver {
         List<String> sorted = new ArrayList<>(names);
         Collections.sort(sorted);
         Assert.assertEquals(names, sorted, "Default order is not A to Z");
+        homePageObj.logInfo("Default sort order verified: A to Z");
     }
 
     // ===================== SORTING =====================
@@ -85,6 +84,7 @@ public class HomePageTestCases extends BaseDriver {
         homePageObj.applyAndVerifyFilter(homePageObj.SORT_BUTTON, "Name (Z to A)");
         List<String> after = homePageObj.getProductNames();
         Assert.assertNotEquals(after, before, "Order did not change after sorting");
+        homePageObj.logInfo("Order changed after sorting");
     }
 
     // ===================== ADD / REMOVE CART =====================
@@ -94,11 +94,13 @@ public class HomePageTestCases extends BaseDriver {
     public void addAndRemoveProductFromCart(String productName, String price) {
         homePageObj.addToCart(productName);
         Assert.assertEquals(homePageObj.getCartBadgeCount(), 1, "Badge should show 1 after adding");
+        homePageObj.logInfo("Product added to cart");
         Assert.assertTrue(homePageObj.isElementVisible(homePageObj.removeButton(productName), homePageObj.small_wait), "Remove button missing");
 
         homePageObj.removeFromCart(productName);
         Assert.assertEquals(homePageObj.getCartBadgeCount(), 0, "Badge should be gone after removing");
         Assert.assertTrue(homePageObj.isElementVisible(homePageObj.addToCartButton(productName), homePageObj.small_wait), "Add to cart button missing");
+        homePageObj.logInfo("Product removed from cart");
     }
 
     @Severity(SeverityLevel.NORMAL)
@@ -109,6 +111,7 @@ public class HomePageTestCases extends BaseDriver {
             homePageObj.addToCart(name);
         }
         Assert.assertEquals(homePageObj.getCartBadgeCount(), names.size());
+        homePageObj.logInfo("All products added to cart");
     }
 
     @Severity(SeverityLevel.NORMAL)
@@ -118,6 +121,7 @@ public class HomePageTestCases extends BaseDriver {
         homePageObj.navigaterRefresh();
         Assert.assertTrue(homePageObj.isElementVisible(homePageObj.PAGE_TTITLE_LOCATOR, homePageObj.small_wait));
         Assert.assertEquals(homePageObj.getCartBadgeCount(), 1, "Cart badge lost after refresh");
+        homePageObj.logInfo("Cart badge persists after refresh");
     }
 
     // ===================== NAVIGATION =====================
@@ -125,19 +129,23 @@ public class HomePageTestCases extends BaseDriver {
     @Severity(SeverityLevel.NORMAL)
     @Test(groups = {"smoke", "regression"}, priority = 8, description = "Cart icon opens the cart page")
     public void cartIconOpensCartPage() {
-        homePageObj.clickOn(homePageObj.TOP_NAV_BAR_CART_BUTTON);
+        homePageObj.fluentWaitClickOnElement(homePageObj.TOP_NAV_BAR_CART_BUTTON,homePageObj.small_wait);
         Assert.assertEquals(homePageObj.getUrl(), CART_URL, "Cart page URL mismatch");
+        homePageObj.logInfo("Cart icon opens the cart page");
+
     }
 
     @Severity(SeverityLevel.NORMAL)
     @Test(groups = {"regression"}, priority = 9, description = "Product details page opens and back button returns to products")
     public void productDetailsPageOpensAndGoesBack() {
         homePageObj.openProductDetails(homePageObj.first_item_name);
+        homePageObj.logInfo("For product details page clicked");
         Assert.assertTrue(homePageObj.getUrl().contains("inventory-item.html"), "Not on product details page");
+        homePageObj.logInfo("Product details page opened");
         homePageObj.assertionHard(homePageObj.PRODUCT_DETAIL_NAME, homePageObj.first_item_name);
-
-        homePageObj.clickOn(homePageObj.BACK_TO_PRODUCTS_BUTTON);
+        homePageObj.fluentWaitClickOnElement(homePageObj.BACK_TO_PRODUCTS_BUTTON,homePageObj.small_wait);
         Assert.assertEquals(homePageObj.getUrl(), HOME_URL, "Back to products did not return to home page");
+        homePageObj.logInfo("Product details page opens and back button returns to products");
     }
 
     // ===================== FOOTER =====================
@@ -147,12 +155,60 @@ public class HomePageTestCases extends BaseDriver {
     public void footerAppearanceAndLinks() {
         homePageObj.scrollToElement(homePageObj.ALL_RIGHT_TEXT_LOCATOR);
         Assert.assertTrue(homePageObj.getText(homePageObj.ALL_RIGHT_TEXT_LOCATOR).contains("Sauce Labs. All Rights Reserved."), "Footer copyright text mismatch");
+
         homePageObj.isElementVisible(homePageObj.FOOTER_TWITTER_BUTTON, homePageObj.small_wait);
         homePageObj.isElementVisible(homePageObj.FOOTER_FACEBOOK_BUTTON, homePageObj.small_wait);
         homePageObj.isElementVisible(homePageObj.FOOTER_LINKEDIN_BUTTON, homePageObj.small_wait);
 
-//        Assert.assertTrue(homePageObj.getLinkHref(homePageObj.FOOTER_TWITTER_BUTTON).contains("saucelabs"), "Twitter link wrong");
-//        Assert.assertTrue(homePageObj.getLinkHref(homePageObj.FOOTER_FACEBOOK_BUTTON).contains("facebook.com/saucelabs"), "Facebook link wrong");
-//        Assert.assertTrue(homePageObj.getLinkHref(homePageObj.FOOTER_LINKEDIN_BUTTON).contains("linkedin.com/company/sauce-labs"), "LinkedIn link wrong");
+        Assert.assertTrue(homePageObj.getButtonLink(homePageObj.FOOTER_TWITTER_BUTTON).contains("saucelabs"), "Twitter link wrong");
+        Assert.assertTrue(homePageObj.getButtonLink(homePageObj.FOOTER_FACEBOOK_BUTTON).contains("facebook.com/saucelabs"), "Facebook link wrong");
+        Assert.assertTrue(homePageObj.getButtonLink(homePageObj.FOOTER_LINKEDIN_BUTTON).contains("linkedin.com/company/sauce-labs"), "LinkedIn link wrong");
     }
+
+    @Severity(SeverityLevel.MINOR)
+    @Test(groups = {"regression"}, priority = 11, description = "Verify Twitter/X footer link works")
+    public void verifyTwitterFooterLinkWorking() {
+
+        homePageObj.scrollToElement(homePageObj.ALL_RIGHT_TEXT_LOCATOR);
+
+        String expectedUrl = homePageObj.getButtonLink(homePageObj.FOOTER_TWITTER_BUTTON);
+
+        homePageObj.fluentWaitClickOnElement(homePageObj.FOOTER_TWITTER_BUTTON,homePageObj.small_wait);
+
+        homePageObj.windowSwitch(1);
+        homePageObj.assertionURL(expectedUrl);
+
+    }
+
+    @Severity(SeverityLevel.MINOR)
+    @Test(groups = {"regression"}, priority = 12, description = "Verify Facebook footer link works")
+    public void verifyFacebookFooterLinkWorking() {
+
+        homePageObj.scrollToElement(homePageObj.ALL_RIGHT_TEXT_LOCATOR);
+
+        String expectedUrl = homePageObj.getButtonLink(homePageObj.FOOTER_FACEBOOK_BUTTON);
+
+        homePageObj.fluentWaitClickOnElement(homePageObj.FOOTER_FACEBOOK_BUTTON, homePageObj.small_wait
+        );
+
+        homePageObj.windowSwitch(1);
+        homePageObj.assertionURL(expectedUrl);
+    }
+
+    @Severity(SeverityLevel.MINOR)
+    @Test(groups = {"regression"}, priority = 13, description = "Verify LinkedIn footer link works")
+    public void verifyLinkedInFooterLinkWorking() {
+
+        homePageObj.scrollToElement(homePageObj.ALL_RIGHT_TEXT_LOCATOR);
+
+        String expectedUrl = homePageObj.getButtonLink(homePageObj.FOOTER_LINKEDIN_BUTTON);
+
+        homePageObj.fluentWaitClickOnElement(homePageObj.FOOTER_LINKEDIN_BUTTON, homePageObj.small_wait);
+
+        homePageObj.windowSwitch(1);
+        homePageObj.assertionURL(expectedUrl);
+    }
+
+
+
 }
