@@ -10,6 +10,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,6 +59,28 @@ public class HomePage extends BasePage {
 	public By FOOTER_FACEBOOK_BUTTON = By.xpath("//a[normalize-space()='Facebook']");
 	public By FOOTER_LINKEDIN_BUTTON = By.xpath("//a[normalize-space()='LinkedIn']");
 
+	@DataProvider(name = "products")
+	public static Object[][] products() {
+		HomePage p = new HomePage();
+		return new Object[][]{
+				{p.first_item_name,  p.first_item_price},
+				{p.second_item_name, p.second_item_price},
+				{p.third_item_name,  p.third_item_price},
+				{p.fourth_item_name, p.fourth_item_price},
+				{p.fifth_item_name,  p.fifth_item_price},
+				{p.sixth_item_name,  p.sixth_item_price}
+		};
+	}
+
+	@DataProvider(name = "sortOptions")
+	public static Object[][] sortOptions() {
+		return new Object[][]{
+				{"Name (A to Z)"}, {"Name (Z to A)"},
+				{"Price (low to high)"}, {"Price (high to low)"}
+		};
+	}
+
+
 	// ===================== INTERNAL LOCATORS =====================
 	private static final By PRODUCT_NAME = By.className("inventory_item_name");
 	private static final By PRODUCT_PRICE = By.className("inventory_item_price");
@@ -70,7 +94,6 @@ public class HomePage extends BasePage {
 	public void appearHomePage(String userName, String password) throws InterruptedException {
 		loginPageObj.loginWithValidCredentials(userName, password);
 		waitForVisibilityOfElement(SWAG_LAB_PAGE_TITTLE_LOCATOR, 10);
-		passwordSaveAlertDisappear();
 		assertionHard(SWAG_LAB_PAGE_TITTLE_LOCATOR, SWAG_LAB_PAGE_TITTLE_TEXT);
 	}
 
@@ -158,5 +181,68 @@ public class HomePage extends BasePage {
 		} catch (TimeoutException e) {
 			throw new NoSuchElementException("Cannot find dropdown option: " + visibleText);
 		}
+	}
+
+	// ===================== PRODUCT / CART / FOOTER HELPERS =====================
+	public By CART_BADGE = By.className("shopping_cart_badge");
+	public By PRODUCT_DETAIL_NAME = By.className("inventory_details_name");
+	public By BACK_TO_PRODUCTS_BUTTON = By.id("back-to-products");
+
+	/** "Sauce Labs Backpack" -> "sauce-labs-backpack" (same pattern the site uses for button ids). */
+	private String slug(String productName) {
+		return productName.toLowerCase(Locale.ROOT).replace(" ", "-");
+	}
+
+	public By addToCartButton(String productName) {
+		return By.id("add-to-cart-" + slug(productName));
+	}
+
+	public By removeButton(String productName) {
+		return By.id("remove-" + slug(productName));
+	}
+
+	public By productNameLink(String productName) {
+		return By.xpath("//div[@data-test='inventory-item-name' and normalize-space()='" + productName + "']");
+	}
+
+	public int getProductCount() {
+		return getDriver().findElements(PRODUCT_NAME).size();
+	}
+
+	/** Product names exactly as displayed, in page order. */
+	public List<String> getProductNames() {
+		List<String> names = new ArrayList<>();
+		for (WebElement el : getDriver().findElements(PRODUCT_NAME)) {
+			names.add(el.getText().trim());
+		}
+		return names;
+	}
+
+	/** Price text (e.g. "$29.99") of one product, found through its name. */
+	public String getPriceOf(String productName) {
+		return findElement(By.xpath("//div[normalize-space()='" + productName
+				+ "']/ancestor::div[@class='inventory_item']//div[@class='inventory_item_price']")).getText().trim();
+	}
+
+	public void addToCart(String productName) {
+		clickOn(addToCartButton(productName));
+	}
+
+	public void removeFromCart(String productName) {
+		clickOn(removeButton(productName));
+	}
+
+	/** Number shown on the cart badge; 0 when the badge is not displayed. */
+	public int getCartBadgeCount() {
+		List<WebElement> badge = getDriver().findElements(CART_BADGE);
+		return badge.isEmpty() ? 0 : Integer.parseInt(badge.get(0).getText().trim());
+	}
+
+	public void openProductDetails(String productName) {
+		clickOn(productNameLink(productName));
+	}
+
+	public String getLinkHref(By locator) {
+		return findElement(locator).getAttribute("href");
 	}
 }

@@ -51,9 +51,9 @@ public class LoginPage extends BasePage{
 	}
 
 	@DataProvider(name = "lockedOutUser")
-	public static Object[][] lockedOutUser() {
-		return new Object[][]{
-				{LOCKED_OUT_USER, PASSWORD, "Epic sadface: Sorry, this user has been locked out."}
+	public  Object[][] lockedOutUser() {
+		return new Object[][] {
+				{ LOCKED_OUT_USER, PASSWORD, ERROR_FOR_BLOCKED_USER_TEXT }
 		};
 	}
 
@@ -69,6 +69,7 @@ public class LoginPage extends BasePage{
 		waitForVisibilityOfElement(LOGIN_PAGE_TITTLE_LOCATOR, small_wait);
 		assertionHard(SWAG_LAB_PAGE_TITTLE_LOCATOR,SWAG_LAB_PAGE_TITTLE_TEXT);
 		logInfo("Login With Valid Credentials And Home Page Appear");
+		passwordSaveAlertDisappear();
 		
 	}
 	

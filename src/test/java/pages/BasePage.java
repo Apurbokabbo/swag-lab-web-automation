@@ -97,23 +97,6 @@ public class BasePage extends CommonLocators{
 
 	public void passwordSaveAlertDisappear(){
 
-//		try {
-//			WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
-//			// Try multiple possible button texts
-//			List<String> buttonTexts = Arrays.asList("OK", "Not now", "No thanks", "Never");
-//
-//			for (String text : buttonTexts) {
-//				try {
-//					WebElement button = wait.until(ExpectedConditions.elementToBeClickable(
-//							By.xpath(String.format("//button[contains(text(), '%s')]", text))
-//					));
-//					button.click();
-//					return;
-//				} catch (TimeoutException ignored) {}
-//			}
-//		} catch (Exception e) {
-//			// Popup didn't appear, continue
-//		}
 		try {
 			// Method 1: Press Escape key
 			Actions actions = new Actions(getDriver());

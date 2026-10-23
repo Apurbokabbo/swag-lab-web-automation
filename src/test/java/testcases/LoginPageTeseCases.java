@@ -33,14 +33,14 @@ public class LoginPageTeseCases extends BaseDriver {
 	@Severity(SeverityLevel.CRITICAL)
 	@Test(groups = {"smoke", "regression"},description = "Login with valid credentials", priority = 1)
 	public void loginWithValidCredentials() {
-		loginObj.loginWithValidCredentials(loginObj.STANDARD_USER_NAME, loginObj.PASSWORD);
+		loginObj.loginWithValidCredentials(LoginPage.STANDARD_USER_NAME, LoginPage.PASSWORD);
 	}
 
 	@Severity(SeverityLevel.NORMAL)
 	@Test(groups = {"regression"}, description = "Assert warning messages for empty login fields",priority = 2)
 	public void emptyFieldWarningMessageAssertion() {
 		loginObj.loginWithInvalidData("", "", "Epic sadface: Username is required");
-		loginObj.loginWithInvalidData(loginObj.STANDARD_USER_NAME, "", "Epic sadface: Password is required");
+		loginObj.loginWithInvalidData(LoginPage.STANDARD_USER_NAME, "", "Epic sadface: Password is required");
 	}
 
 
