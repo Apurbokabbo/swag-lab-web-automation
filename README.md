@@ -21,7 +21,7 @@ UI test automation for [Swag Labs (saucedemo.com)](https://www.saucedemo.com) us
 | Login | `LoginPageTeseCases` | page elements, valid login, empty fields, wrong / mixed-case / injection input (data provider), locked-out user |
 | Home (Products) | `HomePageTestCases` | product names and prices, default sort, all 4 sort options, add / remove to cart, cart badge, product details, footer links |
 | Cart and Checkout | `CartPageTestCases` | cart items, remove, continue shopping, information validation, overview totals and tax, full order |
-| Menu | `MenuPageTestCases` | planned (All Items, About, Logout, Reset App State) |
+| Menu | `MenuPageTestCases` | open / close, items on every page, All Items, About, logout and blocked access afterwards, Reset App State |
 
 Tests are tagged with groups:
 
@@ -45,6 +45,7 @@ Tests are tagged with groups:
 │       ├── VideoRecorder     screen recording (headed mode only)
 │       └── URLs              page URLs
 ├── src/test/resources/logback.xml
+├── docs/images/              report screenshots used in this README
 ├── SmokeTestSuite.xml        TestNG suite: group "smoke"
 ├── RegressionTestSuite.xml   TestNG suite: group "regression"
 ├── .env.example              copy to .env
@@ -110,6 +111,15 @@ allure serve allure-results          # build and open the report
 ```
 
 On failure, the report contains a screenshot, and in headed mode the screen video is saved to `target/videos`. Logs print to the console.
+
+## Report Screenshots
+
+Sample Allure report from a regression run:
+
+| | |
+|---|---|
+| ![Allure report screenshot 1](src/test/resources/report-1.png) | ![Allure report screenshot 2](src/test/resources/report-2.png) |
+| ![Allure report screenshot 3](src/test/resources/report-3.png) | ![Allure report screenshot 4](src/test/resources/report-4.png) |
 
 ## Adding a New Test
 

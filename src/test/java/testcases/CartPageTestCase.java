@@ -231,10 +231,10 @@ public class CartPageTestCase extends BaseDriver {
         cartPageObj.assertionHard(cartPageObj.CART_PAGE_TITLE_LOCATOR, "Checkout: Complete!");
         cartPageObj.assertionHard(cartPageObj.COMPLETE_HEADER, cartPageObj.CART_COMPLETE_PAGE_TITTLE_TEXT);
         cartPageObj.assertionHard(cartPageObj.COMPLETE_TEXT, cartPageObj.CART_COMPLETE_PAGE_SUB_TITTLE_TEXT);
-
         cartPageObj.clickAndWaitForUrl(cartPageObj.CART_HOME_BUTTON, "inventory.html");
         Assert.assertEquals(cartPageObj.getUrl(), HOME_URL, "Back Home did not open the products page");
         Assert.assertEquals(homePageObj.getCartBadgeCount(), 0, "Cart should be empty after the order");
+        cartPageObj.takeScreenShotAllureAttach("Order completed successfully");
         cartPageObj.logInfo("Order completed successfully");
     }
 
