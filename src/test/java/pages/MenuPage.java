@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 
 import java.time.Duration;
@@ -102,4 +103,11 @@ public class MenuPage extends BasePage {
     public String currentUrlWithoutSlash() {
         return getUrl().replaceAll("/+$", "");
     }
+
+    public void logout() {
+        openMenu();
+        clickMenuItem(MENU_LOGOUT);
+        Assert.assertTrue(isElementVisible(LOGIN_PAGE_BUTTON, small_wait), "Login page not shown after logout");
+    }
+
 }

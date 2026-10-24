@@ -47,11 +47,7 @@ public class MenuPageTestCase extends BaseDriver {
         }
     }
 
-    private void logout() {
-        menuObj.openMenu();
-        menuObj.clickMenuItem(menuObj.MENU_LOGOUT);
-        Assert.assertTrue(menuObj.isElementVisible(menuObj.LOGIN_PAGE_BUTTON, menuObj.small_wait), "Login page not shown after logout");
-    }
+
 
     // ===================== OPEN / CLOSE =====================
 
@@ -112,7 +108,7 @@ public class MenuPageTestCase extends BaseDriver {
     @Severity(SeverityLevel.BLOCKER)
     @Test(groups = {"smoke", "regression"}, priority = 5, description = "Logout returns to the login page")
     public void logoutReturnsToLoginPage() {
-        logout();
+        menuObj.logout();
         Assert.assertEquals(menuObj.currentUrlWithoutSlash(), BASE_URL.replaceAll("/+$", ""), "Not on the login page URL");
         menuObj.logInfo("Logout successful");
     }
@@ -120,7 +116,7 @@ public class MenuPageTestCase extends BaseDriver {
     @Severity(SeverityLevel.CRITICAL)
     @Test(groups = {"regression"}, priority = 6, description = "After logout the products page cannot be opened directly")
     public void protectedPageBlockedAfterLogout() {
-        logout();
+        menuObj.logout();
         menuObj.openPage("/inventory.html");
         Assert.assertTrue(menuObj.isElementVisible(menuObj.LOGIN_PAGE_BUTTON, menuObj.small_wait), "Should be redirected to the login page");
         Assert.assertTrue(menuObj.getText(menuObj.LOGIN_PAGE_ERROR_MESSAGE).contains(menuObj.PROTECTED_PAGE_ERROR_PART),
@@ -130,7 +126,7 @@ public class MenuPageTestCase extends BaseDriver {
     @Severity(SeverityLevel.CRITICAL)
     @Test(groups = {"regression"}, priority = 7, description = "Browser Back after logout does not return to the products page")
     public void browserBackAfterLogoutStaysLoggedOut() {
-        logout();
+        menuObj.logout();
         menuObj.goBack();
         Assert.assertTrue(menuObj.isElementVisible(menuObj.LOGIN_PAGE_BUTTON, menuObj.small_wait), "Back must not show the products page");
         Assert.assertNotEquals(menuObj.getUrl(), HOME_URL, "Products page is open after logout");
