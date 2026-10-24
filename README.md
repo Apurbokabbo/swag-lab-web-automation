@@ -112,14 +112,22 @@ allure serve allure-results          # build and open the report
 
 On failure, the report contains a screenshot, and in headed mode the screen video is saved to `target/videos`. Logs print to the console.
 
+
 ## Report Screenshots
 
-Sample Allure report from a regression run:
+Sample Allure report screenshots from a regression test run.
 
-| | |
-|---|---|
-| ![Allure report screenshot 1](src/test/resources/report-1.png) | ![Allure report screenshot 2](src/test/resources/report-2.png) |
-| ![Allure report screenshot 3](src/test/resources/report-3.png) | ![Allure report screenshot 4](src/test/resources/report-4.png) |
+### Allure Report Screenshot 1
+![Allure Report Screenshot 1](src/test/resources/img.png)
+
+### Allure Report Screenshot 2
+![Allure Report Screenshot 2](src/test/resources/img_1.png)
+
+### Allure Report Screenshot 3
+![Allure Report Screenshot 3](src/test/resources/img_2.png)
+
+### Allure Report Screenshot 4
+![Allure Report Screenshot 4](src/test/resources/img_3.png)
 
 ## Adding a New Test
 
