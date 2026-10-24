@@ -6,7 +6,6 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.CartPage;
 import pages.HomePage;
@@ -29,17 +28,6 @@ public class MenuPageTestCase extends BaseDriver {
     CartPage cartPageObj = new CartPage();
     MenuPage menuObj = new MenuPage();
 
-    // ===================== DATA PROVIDERS =====================
-
-    @DataProvider(name = "pagesWithMenu")
-    public static Object[][] pagesWithMenu() {
-        return new Object[][]{
-                {"/inventory.html"},
-                {"/inventory-item.html?id=4"},
-                {"/cart.html"},
-                {"/checkout-step-one.html"}
-        };
-    }
 
     // ===================== SETUP + SMALL HELPERS =====================
 
@@ -68,7 +56,7 @@ public class MenuPageTestCase extends BaseDriver {
     // ===================== OPEN / CLOSE =====================
 
     @Severity(SeverityLevel.CRITICAL)
-    @Test(groups = {"smoke", "regression"}, priority = 0, description = "Menu opens and shows all four items")
+    @Test(groups = {"smoke", "regression"}, priority = 0, description = "Menu opens and shows all five items")
     public void menuOpensWithAllItems() {
         menuObj.openMenu();
         Assert.assertTrue(menuObj.isMenuOpen(), "Menu should be open");
@@ -79,7 +67,7 @@ public class MenuPageTestCase extends BaseDriver {
 
     @Severity(SeverityLevel.NORMAL)
     @Test(groups = {"regression"}, priority = 1, description = "Close (X) button closes the menu")
-    public void crossButtonClosesMenu() {
+    public void crossButtonClosesMenu() throws InterruptedException {
         menuObj.openMenu();
         menuObj.closeMenu();
         Assert.assertFalse(menuObj.isMenuOpen(), "Menu should be closed");
@@ -87,7 +75,7 @@ public class MenuPageTestCase extends BaseDriver {
     }
 
     @Severity(SeverityLevel.NORMAL)
-    @Test(dataProvider = "pagesWithMenu", groups = {"regression"}, priority = 2, description = "Menu is available with all items on every page")
+    @Test(dataProvider = "pagesWithMenu",dataProviderClass = MenuPage.class, groups = {"regression"}, priority = 2, description = "Menu is available with all items on every page")
     public void menuIsAvailableOnEveryPage(String path) {
         menuObj.openPage(path);
         menuObj.openMenu();
